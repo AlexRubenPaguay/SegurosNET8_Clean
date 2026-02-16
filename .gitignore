@@ -1,0 +1,117 @@
+## Ignorar archivos de Visual Studio
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.sln.docstates
+
+## Ignorar archivos de compilación
+**/bin/
+**/obj/
+**/Debug/
+**/Release/
+**/Publish/
+*.dll
+*.exe
+*.pdb
+*.so
+*.dylib
+*.app
+
+## Ignorar archivos de paquetes NuGet
+packages/
+*.nupkg
+project.lock.json
+project.assets.json
+*.nuget.props
+*.nuget.targets
+
+## Ignorar archivos de configuración de usuario
+appsettings.Development.json
+appsettings.Production.json
+secrets.json
+*.secret.json
+
+## Ignorar archivos de logs
+logs/
+*.log
+*.txt.log
+
+## Ignorar archivos de base de datos (EF Core Migrations)
+**/Migrations/*.Designer.cs
+**/Migrations/*.cs
+!**/Migrations/ApplicationDbContextModelSnapshot.cs
+*.db
+*.sqlite
+*.mdf
+
+## Ignorar archivos generados por herramientas
+**/wwwroot/lib/
+*.cache
+*.temp
+*.tmp
+_ReSharper*/
+*.resharper
+*.DotSettings.user
+
+## Ignorar archivos de pruebas
+TestResults/
+*.trx
+*.coverage
+coverage.json
+*.coveragexml
+
+## Ignorar archivos de entorno
+.env
+.env.local
+.env.development
+.env.production
+
+## Ignorar archivos del sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+
+## Ignorar archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.*~
+
+## Ignorar archivos de publicación
+publish/
+PublishProfiles/
+*.publish.xml
+*.pubxml.user
+
+## Ignorar dependencias específicas del proyecto
+/node_modules/
+/jspm_packages/
+/bower_components/
+
+## Ignorar archivos de cobertura de código
+*.coverage
+*.coveragexml
+*.lcov
+*.opencover.xml
+
+## Ignorar archivos temporales de Docker
+docker-compose.override.yml
+.dockerignore
+Dockerfile.*
+*.dockerignore
+
+## Ignorar certificados de desarrollo
+*.pfx
+*.p12
+*.crt
+*.key
+
+## Ignorar archivos específicos de Entity Framework
+**/Migrations/*_*.cs
+!**/Migrations/ApplicationDbContextModelSnapshot.cs

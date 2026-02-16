@@ -1,0 +1,6 @@
+@SegurosNET8_Clean.API_HostAddress = http://localhost:5261
+
+GET {{SegurosNET8_Clean.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

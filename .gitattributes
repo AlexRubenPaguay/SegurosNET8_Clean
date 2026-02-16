@@ -1,0 +1,116 @@
+# Configuración para normalizar saltos de línea
+* text=auto
+
+# Archivos de código fuente C#
+*.cs text diff=csharp
+*.csx text diff=csharp
+
+# Archivos de solución y proyecto
+*.sln text merge=union
+*.csproj text merge=union
+*.fsproj text merge=union
+*.vbproj text merge=union
+*.props text
+*.targets text
+
+# Archivos de configuración
+*.json text
+*.xml text
+*.config text
+*.settings text
+*.manifest text
+*.rsp text
+
+# Archivos de documentación
+*.md text
+*.txt text
+*.txt text
+*.markdown text
+
+# Archivos de script
+*.ps1 text diff
+*.psm1 text diff
+*.psd1 text diff
+*.ps1xml text diff
+*.pssc text diff
+*.psrc text diff
+*.sh text eol=lf
+*.bash text eol=lf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Archivos web
+*.html text diff
+*.css text diff
+*.js text diff
+*.ts text diff
+*.jsx text diff
+*.tsx text diff
+*.vue text diff
+*.scss text diff
+*.sass text diff
+
+# Archivos de base de datos
+*.sql text
+
+# Archivos de recursos
+*.resx text
+*.resx text
+*.xaml text
+*.xsd text
+
+# Archivos de imagen
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg text
+*.webp binary
+
+# Archivos binarios
+*.dll binary
+*.exe binary
+*.pdb binary
+*.mdb binary
+*.so binary
+*.dylib binary
+*.db binary
+*.mdf binary
+*.ldf binary
+
+# Archivos comprimidos
+*.zip binary
+*.tar binary
+*.gz binary
+*.7z binary
+*.rar binary
+
+# Archivos de certificados
+*.pfx binary
+*.p12 binary
+*.crt text
+*.key text
+
+# Archivos de logs (tratarlos como texto pero con atributos especiales)
+*.log text
+*.txt.log text
+
+# Archivos específicos de Entity Framework
+**/Migrations/*.Designer.cs text diff=csharp
+**/Migrations/*.cs text diff=csharp
+**/Migrations/ApplicationDbContextModelSnapshot.cs text diff=csharp
+
+# Ignorar diferencias whitespace en archivos específicos
+*.cs -whitespace
+
+# Configuración específica para diferentes sistemas operativos
+*.sh text eol=lf
+*.bash text eol=lf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# Archivos de entorno
+.env text
+.env.* text
