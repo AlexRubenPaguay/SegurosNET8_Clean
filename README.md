@@ -2,6 +2,9 @@
 
 ![b1944ac4-335c-4a54-92d2-a5c71f882d3d](https://github.com/user-attachments/assets/ade082dc-0bb8-42bf-be3a-155a5f5ce820)
 
+## REPOSITORIO DEL FROND-END PARA ESTE PROYECTO
+https://github.com/AlexRubenPaguay/SegurosFrontAngular16_Clean ---> HECHO EN ANGULAR 16
+https://github.com/AlexRubenPaguay/SegurosFrontNET8_Clean      ---> HECHO EN ASP.NET(8) CORE MVC 
 
 ## AÚN EN DESARROLLO CON .NET 8
 
@@ -17,6 +20,7 @@
 # SEGUROS
 <img width="1243" height="867" alt="image" src="https://github.com/user-attachments/assets/f9052a79-e8eb-4bf0-9992-e8ef05531add" />
 <img width="1225" height="877" alt="image" src="https://github.com/user-attachments/assets/79465718-5781-4f20-8ed7-e09a4f8326c1" />
+
 
 
 
