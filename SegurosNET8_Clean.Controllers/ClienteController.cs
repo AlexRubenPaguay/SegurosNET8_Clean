@@ -26,10 +26,11 @@ public class ClienteController(
     IDeleteByCedulaClienteOutputPort OutputPortDelete,
     IUpdateClienteInputPort InputPortUpdate,
     IUpdateClienteOutputPort OutputPortUpdate)
-{        
+{
 
     [HttpGet]
-    public async Task<IEnumerable<ResponseClienteDTO>> ObtenerTodosClientes() {
+    public async Task<IEnumerable<ResponseClienteDTO>> ObtenerTodosClientes()
+    {
         await InputPortGetAll.Handle();
         return (OutputPortGetAll as IPresenter<IEnumerable<ResponseClienteDTO>>).Content;
     }
@@ -47,9 +48,10 @@ public class ClienteController(
     }
 
     [HttpPost]
-    public async Task<ActionResult<string>> CrearCliente(CrearClienteDTO clienteDTO) {        
-            await inputPortCrear.Handle(clienteDTO);
-            return (outputPortCrear as IPresenter<string>).Content;       
+    public async Task<ActionResult<string>> CrearCliente(CrearClienteDTO clienteDTO)
+    {
+        await inputPortCrear.Handle(clienteDTO);
+        return (outputPortCrear as IPresenter<string>).Content;
     }
 
     [HttpPut("{IdCliente}")]
@@ -60,9 +62,10 @@ public class ClienteController(
     }
 
     [HttpDelete("{cedula}")]
-    public async Task<string> DeleteCliente(string cedula)
+    public async Task<IActionResult> DeleteCliente(string cedula)
     {
         await InputPortDelete.Handle(cedula);
-        return (OutputPortDelete as IPresenter<string>).Content;
+        var mensaje = (OutputPortDelete as IPresenter<string>).Content;
+        return new OkObjectResult(new { mensaje });
     }
 }

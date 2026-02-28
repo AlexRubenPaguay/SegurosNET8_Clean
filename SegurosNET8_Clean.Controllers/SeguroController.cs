@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using SegurosNET8_Clean.DTOs;
 using SegurosNET8_Clean.Presenters;
 using SegurosNET8_Clean.UseCasePorts.ClientePorts;
@@ -61,9 +62,10 @@ public class SeguroController(
     }
 
     [HttpDelete("{IdSeguro}")]
-    public async Task<string> DeleteSeguro(int IdSeguro)
+    public async Task<IActionResult> DeleteSeguro(int IdSeguro)
     {
         await InputPortDelete.Handle(IdSeguro);
-        return (OutputPortDelete as IPresenter<string>).Content;
+        var mensaje = (OutputPortDelete as IPresenter<string>).Content;       
+        return new OkObjectResult(new { mensaje });
     }
 }
