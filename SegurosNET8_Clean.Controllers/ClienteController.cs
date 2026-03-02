@@ -48,17 +48,19 @@ public class ClienteController(
     }
 
     [HttpPost]
-    public async Task<ActionResult<string>> CrearCliente(CrearClienteDTO clienteDTO)
+    public async Task<IActionResult> CrearCliente(CrearClienteDTO clienteDTO)
     {
         await inputPortCrear.Handle(clienteDTO);
-        return (outputPortCrear as IPresenter<string>).Content;
+        var response = (outputPortCrear as IPresenter<string>).Content;
+        return new OkObjectResult(new { response });
     }
 
     [HttpPut("{IdCliente}")]
-    public async Task<string> UpdateCliente(int IdCliente, CrearClienteDTO clienteDTO)
+    public async Task<IActionResult> UpdateCliente(int IdCliente, CrearClienteDTO clienteDTO)
     {
         await InputPortUpdate.Handle(IdCliente, clienteDTO);
-        return (OutputPortUpdate as IPresenter<string>).Content;
+        var response = (OutputPortUpdate as IPresenter<string>).Content;
+        return new OkObjectResult(new { response });
     }
 
     [HttpDelete("{cedula}")]

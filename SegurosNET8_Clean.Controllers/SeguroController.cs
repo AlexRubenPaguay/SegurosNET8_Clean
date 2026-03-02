@@ -49,23 +49,25 @@ public class SeguroController(
     }
 
     [HttpPost]
-    public async Task<ActionResult<string>> CrearSeguro(CrearSeguroDTO seguroDTO)
+    public async Task<IActionResult> CrearSeguro(CrearSeguroDTO seguroDTO)
     {
         await inputPortCrear.Handle(seguroDTO);
-        return (outputPortCrear as IPresenter<string>).Content;
+        var response = (outputPortCrear as IPresenter<string>).Content;
+        return new OkObjectResult(new { response });
     }
     [HttpPut("{IdSeguro}")]
-    public async Task<string> UpdateSeguro(int IdSeguro, [FromBody] CrearSeguroDTO seguroDTO)
+    public async Task<IActionResult> UpdateSeguro(int IdSeguro,CrearSeguroDTO seguroDTO)
     {
         await InputPortUpdate.Handle(IdSeguro, seguroDTO);
-        return (OutputPortUpdate as IPresenter<string>).Content;
+        var response = (OutputPortUpdate as IPresenter<string>).Content;
+        return new OkObjectResult(new { response });
     }
 
     [HttpDelete("{IdSeguro}")]
     public async Task<IActionResult> DeleteSeguro(int IdSeguro)
     {
         await InputPortDelete.Handle(IdSeguro);
-        var mensaje = (OutputPortDelete as IPresenter<string>).Content;       
-        return new OkObjectResult(new { mensaje });
+        var response = (OutputPortDelete as IPresenter<string>).Content;
+        return new OkObjectResult(new { response });
     }
 }
