@@ -11,19 +11,33 @@ namespace SegurosNET8_Clean.UseCase.SeguroInteractor;
 
 public class ObtenerSeguroByIdInteractor(ISeguroRepository _repository, IGetByIdSeguroOutputPort outputPort) : IGetByIdSeguroInputPort
 {
-    public Task Handle(int IdSeguro)
+    public async Task Handle(int IdSeguro)
     {
-        var segurosResult = _repository.GetById(IdSeguro);
-        ResponseSeguroDTO segurosDTO = new ResponseSeguroDTO
+        try
         {
-            IdSeguro = segurosResult.Result.IdSeguro,
-            Nombre = segurosResult.Result.Nombre,
-            Codigo = segurosResult.Result.Codigo,
-            Suma = segurosResult.Result.SumaAsegurada,
-            Prima = segurosResult.Result.Prima,
-            IdCliente = segurosResult.Result.IdCliente
-        };
-        outputPort.Handle(segurosDTO);
-        return Task.CompletedTask;
+            var segurosResult = await _repository.GetById(IdSeguro);
+            if (segurosResult == null)
+            {
+                await outputPort.Handle(null);
+                return;
+            }
+
+            ResponseSeguroDTO segurosDTO = new ResponseSeguroDTO
+            {
+                IdSeguro = segurosResult.IdSeguro,
+                Nombre = segurosResult.Nombre,
+                Codigo = segurosResult.Codigo,
+                Suma = segurosResult.SumaAsegurada,
+                Prima = segurosResult.Prima,
+                IdCliente = segurosResult.IdCliente
+            };
+            await outputPort.Handle(segurosDTO);
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
     }
 }

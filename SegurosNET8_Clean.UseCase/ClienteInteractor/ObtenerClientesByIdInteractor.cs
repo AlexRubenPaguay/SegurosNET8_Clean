@@ -11,20 +11,30 @@ namespace SegurosNET8_Clean.UseCase.ClienteInteractor;
 
 public class ObtenerClientesByIdInteractor(IClienteRepository _repository, IGetByIdClienteOutputPort outputPort) : IGetByIdClienteInputPort
 {
-    public Task Handle(int IdCliente)
+    public async Task Handle(int IdCliente)
     {
-        var cliente = _repository.GetById(IdCliente);
-
-        var clienteDTO = new ResponseClienteDTO
+        try
         {
-            IdCliente = cliente.Result.IdCliente,
-            Cedula = cliente.Result.Cedula,
-            Nombre = cliente.Result.Nombre,
-            Telefono = cliente.Result.Telefono,
-            Edad = cliente.Result.Edad
-        };
+            var cliente = await _repository.GetById(IdCliente);
+            if (cliente == null)
+            {
+                await outputPort.Handle(null);
+                return;
+            }
+            var clienteDTO = new ResponseClienteDTO
+            {
+                IdCliente = cliente.IdCliente,
+                Cedula = cliente.Cedula,
+                Nombre = cliente.Nombre,
+                Telefono = cliente.Telefono,
+                Edad = cliente.Edad
+            };
+            await outputPort.Handle(clienteDTO);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
 
-        outputPort.Handle(clienteDTO);
-        return Task.CompletedTask;
     }
 }

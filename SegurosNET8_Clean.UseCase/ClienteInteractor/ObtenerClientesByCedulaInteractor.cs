@@ -11,20 +11,30 @@ namespace SegurosNET8_Clean.UseCase.Cliente;
 
 public class ObtenerClientesByCedulaInteractor(IClienteRepository _repository, IGetByCedulaClienteOutputPort outputPort) : IGetByCedulaClienteInputPort
 {
-    public Task Handle(string cedula)
+    public async Task Handle(string cedula)
     {
-        var cliente = _repository.Get(cedula);
-
-        var clienteDTO = new ResponseClienteDTO
+        try
         {
-            IdCliente = cliente.Result.IdCliente,
-            Cedula = cliente.Result.Cedula,
-            Nombre = cliente.Result.Nombre,
-            Telefono = cliente.Result.Telefono,
-            Edad = cliente.Result.Edad
-        };
+            var cliente = await _repository.Get(cedula);
+            if (cliente == null)
+            {
+                await outputPort.Handle(null);
+                return;
+            }
 
-        outputPort.Handle(clienteDTO);
-        return Task.CompletedTask;
+            var clienteDTO = new ResponseClienteDTO
+            {
+                IdCliente = cliente.IdCliente,
+                Cedula = cliente.Cedula,
+                Nombre = cliente.Nombre,
+                Telefono = cliente.Telefono,
+                Edad = cliente.Edad
+            };
+            await outputPort.Handle(clienteDTO);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
     }
 }

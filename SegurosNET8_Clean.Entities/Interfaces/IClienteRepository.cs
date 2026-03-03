@@ -12,7 +12,7 @@ public interface IClienteRepository
     Task<IEnumerable<Cliente>> GetAll();
     Task<Cliente> Get(string cedula);
     Task<Cliente> GetById(int id);
-    Task Delete(string cedula);
+    Task<bool> Delete(string cedula);
     Task save(Cliente cliente);
     Task update(int IdCliente,Cliente cliente);
 

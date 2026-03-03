@@ -22,6 +22,7 @@ public static class DependencyContainer
            options.UseSqlServer(configuration.GetConnectionString("connSQLServer")));
         services.AddScoped<IClienteRepository, ClienteRepository>();
         services.AddScoped<ISeguroRepository, SeguroRepository>();
+        services.AddScoped<IUsuarioRepository, UsuarioRepository>();
         return services;
     }
 }

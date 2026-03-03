@@ -16,6 +16,7 @@ public class AseguradoraContext : DbContext
     }
     public DbSet<Cliente> Clientes { get; set; }
     public DbSet<Seguro> Seguros { get; set; }
+    public DbSet<Usuario> Usuarios { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);        

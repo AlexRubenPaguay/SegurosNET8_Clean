@@ -42,10 +42,14 @@ public class SeguroController(
         return (OutputPortGetBy as IPresenter<IEnumerable<ResponseSeguroDTO>>).Content;
     }
     [HttpGet("GetById/{IdSeguro}")]
-    public async Task<ResponseSeguroDTO> ObtenerByIdSeguro(int IdSeguro)
+    public async Task<ActionResult<ResponseSeguroDTO>> ObtenerByIdSeguro(int IdSeguro)
     {
         await InputPortGetById.Handle(IdSeguro);
-        return (OutputPortGetById as IPresenter<ResponseSeguroDTO>).Content;
+        ResponseSeguroDTO responseSeguroDTO = (OutputPortGetById as IPresenter<ResponseSeguroDTO>).Content;
+        if (responseSeguroDTO == null)
+            return new NotFoundObjectResult(new { response = $"El seguro con ID [{IdSeguro}] no encontrado." });
+
+        return new OkObjectResult(responseSeguroDTO);
     }
 
     [HttpPost]
@@ -56,7 +60,7 @@ public class SeguroController(
         return new OkObjectResult(new { response });
     }
     [HttpPut("{IdSeguro}")]
-    public async Task<IActionResult> UpdateSeguro(int IdSeguro,CrearSeguroDTO seguroDTO)
+    public async Task<IActionResult> UpdateSeguro(int IdSeguro, CrearSeguroDTO seguroDTO)
     {
         await InputPortUpdate.Handle(IdSeguro, seguroDTO);
         var response = (OutputPortUpdate as IPresenter<string>).Content;
@@ -68,6 +72,8 @@ public class SeguroController(
     {
         await InputPortDelete.Handle(IdSeguro);
         var response = (OutputPortDelete as IPresenter<string>).Content;
+        if (response == null)
+            return new NotFoundObjectResult(new { response = $"El seguro con ID [{IdSeguro}] no encontrado." });
         return new OkObjectResult(new { response });
     }
 }

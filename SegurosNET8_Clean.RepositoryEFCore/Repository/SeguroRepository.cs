@@ -20,16 +20,16 @@ namespace SegurosNET8_Clean.RepositoryEFCore.Repository;
 public class SeguroRepository(AseguradoraContext _context, ILogger<SeguroRepository> _logger, IConfiguration _configuration) : ISeguroRepository
 {
     public async Task<Seguro> GetById(int IdSeguro)
-    {        
+    {
         var parameter = new SqlParameter("@IdSeguro", IdSeguro);
         var response = await _context.Seguros
             .FromSqlRaw("EXEC sp_obtener_seguro_ById @IdSeguro", parameter)
             .AsNoTracking()
-            .ToListAsync();  
+            .ToListAsync();
         return response.FirstOrDefault();
     }
     public async Task<IEnumerable<Seguro>> Get(string codigoSeguro)
-    {        
+    {
         var parameter = new SqlParameter("@Codigo", codigoSeguro);
         var response = await _context.Seguros
             .FromSqlRaw("EXEC sp_obtener_seguro_ByCodigo @Codigo", parameter)
@@ -54,7 +54,7 @@ public class SeguroRepository(AseguradoraContext _context, ILogger<SeguroReposit
     public async Task Save(Seguro seguro)
     {
         try
-        {            
+        {
             if (seguro == null)
                 throw new Exception("El seguro no puede ser nulo");
 
@@ -65,12 +65,12 @@ public class SeguroRepository(AseguradoraContext _context, ILogger<SeguroReposit
                 throw new Exception("La prima debe ser mayor a 0");
 
             _context.Seguros.Add(seguro);
-            var filasAfectadas = await _context.SaveChangesAsync();            
+            var filasAfectadas = await _context.SaveChangesAsync();
             _logger.LogInformation($"Seguro guardado exitosamente. ID: {seguro.IdSeguro}");
         }
         catch (DbUpdateException ex) when (ex.InnerException is SqlException sqlEx)
-        {            
-             throw; 
+        {
+            throw;
         }
     }
 
@@ -117,20 +117,17 @@ public class SeguroRepository(AseguradoraContext _context, ILogger<SeguroReposit
             throw new Exception($"Error en la base de datos: {ex.Message}");
         }
     }
-    public async Task Delete(int IdSeguro)
+    public async Task<bool> Delete(int IdSeguro)
     {
         try
         {
-            Seguro seguroDB = _context.Seguros.First(x => x.IdSeguro == IdSeguro);
+            Seguro seguroDB = await _context.Seguros.FirstOrDefaultAsync(x => x.IdSeguro == IdSeguro);
             if (seguroDB == null)
-                throw new Exception($"El ID de seguro [{IdSeguro}] no existe en la BD.");
+                return false;
 
             _context.Seguros.Remove(seguroDB);
-            _context.SaveChanges();
-        }
-        catch (SqlException ex)
-        {            
-            throw new Exception($"Error al eliminar  el seguro: {ex.Message}");
+            await _context.SaveChangesAsync();
+            return true;
         }
         catch (Exception)
         {

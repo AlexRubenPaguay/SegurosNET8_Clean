@@ -2,8 +2,10 @@
 using SegurosNET8_Clean.DTOs;
 using SegurosNET8_Clean.Presenters.Cliente;
 using SegurosNET8_Clean.Presenters.Seguro;
+using SegurosNET8_Clean.Presenters.Usuario;
 using SegurosNET8_Clean.UseCasePorts.ClientePorts;
 using SegurosNET8_Clean.UseCasePorts.SeguroPorts;
+using SegurosNET8_Clean.UseCasePorts.UsuarioPorts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +17,7 @@ namespace SegurosNET8_Clean.Presenters;
 
 public static class DependencyContainer
 {
-    public static IServiceCollection AddPresenters(this IServiceCollection services) 
+    public static IServiceCollection AddPresenters(this IServiceCollection services)
     {
         //Servicios de Cliente
         services.AddScoped<ICrearClienteOutputPort, CrearClientePresenter>();
@@ -31,6 +33,11 @@ public static class DependencyContainer
         services.AddScoped<IGetByCodigoSeguroOutputPort, ObtenerByCodigoSeguroPresenter>();
         services.AddScoped<IGetByIdSeguroOutputPort, ObtenerByIdSeguroPresenter>();
         services.AddScoped<IUpdateSeguroOutputPort, ActualizarSeguroPresenter>();
+        //Servicios de Usuario
+        services.AddScoped<ICrearUsuarioOutputPort, CrearUsuarioPresenter>();
+        services.AddScoped<IDeleteByIdUsuarioOutputPort, DeleteUsuarioPresenter>();
+        services.AddScoped<IGetByUsuarioUsuarioOutputPort, ObtenerByUsuarioUsuarioPresenter>();
+        services.AddScoped<IUpdateUsuarioOutputPort, ActualizarUsuarioPresenter>();
         return services;
     }
 }

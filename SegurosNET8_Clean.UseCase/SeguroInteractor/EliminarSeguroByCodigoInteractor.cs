@@ -11,10 +11,21 @@ namespace SegurosNET8_Clean.UseCase.RequestSeguro;
 
 public class EliminarSeguroByCodigoInteractor(ISeguroRepository _repository, IDeleteByCodigoSeguroOutputPort outputPort) : IDeleteByCodigoSeguroInputPort
 {
-    public Task Handle(int IdSeguro)
+    public async Task Handle(int IdSeguro)
     {
-        _repository.Delete(IdSeguro);
-        outputPort.Handle($"Seguro con ID [{IdSeguro}] se ha eliminado correctamente.");
-        return Task.CompletedTask;
+        try
+        {
+            Boolean eliminado = await _repository.Delete(IdSeguro);
+            if (!eliminado)
+            {
+                await outputPort.Handle(null);
+                return;
+            }
+            await outputPort.Handle($"Seguro con ID [{IdSeguro}] se ha eliminado correctamente.");
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 }

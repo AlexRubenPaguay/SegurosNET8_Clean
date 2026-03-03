@@ -35,16 +35,24 @@ public class ClienteController(
         return (OutputPortGetAll as IPresenter<IEnumerable<ResponseClienteDTO>>).Content;
     }
     [HttpGet("GetByCedula/{cedula}")]
-    public async Task<ResponseClienteDTO> ObtenerByCedulaCliente(string cedula)
+    public async Task<ActionResult<ResponseClienteDTO>> ObtenerByCedulaCliente(string cedula)
     {
         await InputPortGetBy.Handle(cedula);
-        return (OutputPortGetBy as IPresenter<ResponseClienteDTO>).Content;
+        ResponseClienteDTO responseClienteDTO = (OutputPortGetBy as IPresenter<ResponseClienteDTO>).Content;
+        if (responseClienteDTO == null)
+            return new NotFoundObjectResult(new { response = $"El cliente con cédula [{cedula}] no encontrado." });
+
+        return new OkObjectResult(responseClienteDTO);
     }
     [HttpGet("{IdCliente:int}")]
-    public async Task<ResponseClienteDTO> ObtenerByIdCliente(int IdCliente)
+    public async Task<ActionResult<ResponseClienteDTO>> ObtenerByIdCliente(int IdCliente)
     {
         await InputPortGetById.Handle(IdCliente);
-        return (OutputPortGetById as IPresenter<ResponseClienteDTO>).Content;
+        ResponseClienteDTO responseClienteDTO = (OutputPortGetById as IPresenter<ResponseClienteDTO>).Content;
+        if (responseClienteDTO == null)
+            return new NotFoundObjectResult(new { response = $"El cliente con ID [{IdCliente}] no encontrado." });
+
+        return new OkObjectResult(responseClienteDTO);
     }
 
     [HttpPost]
@@ -67,7 +75,9 @@ public class ClienteController(
     public async Task<IActionResult> DeleteCliente(string cedula)
     {
         await InputPortDelete.Handle(cedula);
-        var mensaje = (OutputPortDelete as IPresenter<string>).Content;
-        return new OkObjectResult(new { mensaje });
+        var response = (OutputPortDelete as IPresenter<string>).Content;
+        if (response == null)
+            return new NotFoundObjectResult(new { response = $"El cliente con cédula [{cedula}] no encontrado." });
+        return new OkObjectResult(new { response });
     }
 }

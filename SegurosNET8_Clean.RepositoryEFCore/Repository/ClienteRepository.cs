@@ -34,7 +34,7 @@ public class ClienteRepository : IClienteRepository
         var result = await _context.Clientes
             .FromSqlRaw("EXEC sp_obtener_clientes_ByCedula @Cedula", parameter)
             .AsNoTracking()
-            .ToListAsync();  
+            .ToListAsync();
         return result.FirstOrDefault();
     }
 
@@ -108,17 +108,18 @@ public class ClienteRepository : IClienteRepository
             throw new Exception($"Error en la base de datos: {ex.Message}");
         }
     }
-    public async Task Delete(string cedula)
+    public async Task<bool> Delete(string cedula)
     {
         try
         {
-            Cliente Existecliente = _context.Clientes.First(x => x.Cedula == cedula);
+            Cliente Existecliente = await _context.Clientes.FirstOrDefaultAsync(x => x.Cedula == cedula);
             if (Existecliente == null)
             {
-                throw new Exception($"Cliente con cédula {cedula} no encontrado");
+                return false;
             }
             _context.Clientes.Remove(Existecliente);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         catch (Exception)
@@ -132,7 +133,7 @@ public class ClienteRepository : IClienteRepository
         var result = await _context.Clientes
             .FromSqlRaw("EXEC sp_obtener_cliente_ById @IdCliente", parameter)
             .AsNoTracking()
-            .ToListAsync(); 
+            .ToListAsync();
 
         return result.FirstOrDefault();
     }

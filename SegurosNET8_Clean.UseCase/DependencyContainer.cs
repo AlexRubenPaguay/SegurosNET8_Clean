@@ -5,8 +5,10 @@ using SegurosNET8_Clean.UseCase.RequestClienteInteractor;
 using SegurosNET8_Clean.UseCase.RequestSeguro;
 using SegurosNET8_Clean.UseCase.Seguro;
 using SegurosNET8_Clean.UseCase.SeguroInteractor;
+using SegurosNET8_Clean.UseCase.UsuarioInteractor;
 using SegurosNET8_Clean.UseCasePorts.ClientePorts;
 using SegurosNET8_Clean.UseCasePorts.SeguroPorts;
+using SegurosNET8_Clean.UseCasePorts.UsuarioPorts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -36,6 +38,11 @@ public static class DependencyContainer
         services.AddTransient<IGetAllSeguroInputPort, ObtenerSegurosInteractor>();
         services.AddTransient<IGetByCodigoSeguroInputPort, ObtenerSeguroByCodigoInteractor>();
         services.AddTransient<IGetByIdSeguroInputPort, ObtenerSeguroByIdInteractor>();
+        //Servicios de Usuario
+        services.AddTransient<ICrearUsuarioInputPort, CrearUsuarioInteractor>();
+        services.AddTransient<IDeleteByIdUsuarioInputPort, EliminarUsuarioByIdInteractorcs>();
+        services.AddTransient<IUpdateUsuarioInputPort, ActualizarUsuarioInteractor>();
+        services.AddTransient<IGetByUsuarioUsuarioInputPort, ObtenerUsuarioByUsuarioInteractor>();
         return services;
     }
 }

@@ -12,10 +12,23 @@ namespace SegurosNET8_Clean.UseCase.Cliente;
 
 public class EliminarClientesByCedulaInteractor(IClienteRepository _repository, IDeleteByCedulaClienteOutputPort outputPort) : IDeleteByCedulaClienteInputPort
 {
-    public Task Handle(string cedula)
+    public async Task Handle(string cedula)
     {
-        _repository.Delete(cedula);
-        outputPort.Handle($"Cliente con cédula [{cedula}] se ha eliminado correctamente.");
-        return Task.CompletedTask;
+        try
+        {
+            Boolean eliminado = await _repository.Delete(cedula);
+            if (!eliminado)
+            {
+                await outputPort.Handle(null);
+                return;
+            }
+            await outputPort.Handle($"Cliente con cédula [{cedula}] se ha eliminado correctamente.");
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        
+        
     }
 }
